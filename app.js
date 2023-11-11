@@ -1,6 +1,6 @@
 const express = require('express');
 const fetch = require("node-fetch");
-const { response } = require('express');
+const { responseToken, responseTrips } = require('express');
 const app = express();
 const port = 8000;
 app.set('json spaces', 2);
@@ -20,8 +20,8 @@ app.get('/gettoken', async function (req, res) {
     };
 
     //Query INRIX for token
-    let response = await fetch(url, requestOptions);
-    let json = await response.json();
+    let responseToken = await fetch(url, requestOptions);
+    let json = await responseToken.json();
     let output = json.result.token;
 
     //Return token
@@ -33,4 +33,32 @@ app.get('/gettoken', async function (req, res) {
 //Starting server using listen function
 app.listen(port, function () {
     console.log("Server has been started at " + port);
+})
+
+app.get('/counttrips', async function (req, res){
+    
+    const token = req.query.token;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let radius = 100;
+    let coord1 = 37.781793;
+    let coord2 = -122.405189;
+
+    let url = `https://api.iq.inrix.com/v1/trips-count?od=destination&geoFilterType=circle&radius=${radius}m&points=${coord1}%7C${coord2}&limit=1000&startDateTime=%3E%3D2023-06-01T02%3A31&endDateTime=%3C%3D2023-06-15T02%3A31`;
+
+    let responseTrips = await fetch(url, requestOptions);
+    let json = await responseTrips.json();
+    
+    res.json({
+        count: json.count,
+    })
+    
 })
