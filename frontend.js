@@ -12,6 +12,7 @@ new Vue({
       price: null,
       tripcount: null,
       score: null,
+      type: null,
     },
     methods: {
       submitForm() {
@@ -34,6 +35,7 @@ new Vue({
           this.price = data.price;
           this.tripcount = data.tripcount;
           this.score = data.score;
+          this.type = data.type;
         })
         .catch(error => {
           console.error('Error:', error);

@@ -59,9 +59,9 @@ async function findPriceSq(address) {
     }
 
     let timeRate = (spanText.charAt(spanText.length - 1) == 'R') ? 12 : 1;
-    console.log('timerate', timeRate);
+    //console.log('timerate', timeRate);
     returnVal = returnVal / timeRate;
-    console.log('returnval:', returnVal);
+    //console.log('returnval:', returnVal);
 
     // Parse detailsText
     let inputString = detailsText;
@@ -69,10 +69,8 @@ async function findPriceSq(address) {
     let upperBound = 0;
     // Define a regular expression to match numbers with commas and periods
     const regex = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?) sq\. ft\. - (\d{1,3}(?:,\d{3})*(?:\.\d+)?) sq\. ft\./;
-
     // Use the regular expression to extract matches from the input string
     const match = inputString.match(regex);
-
     if (match && match.length >= 3) {
         // The first captured group is the lower bound, and the second is the upper bound
         lowerBound = parseFloat(match[1].replace(/,/g, ''));
@@ -82,12 +80,19 @@ async function findPriceSq(address) {
         lowerBound = null;
         upperBound = null;
     }
-    console.log('upper:', upperBound, 'lower:', lowerBound);
+    //console.log('upper:', upperBound, 'lower:', lowerBound);
+
+    // Parse store type
+    // parse type
+    let finalType = "Other";
+    if (detailsText.indexOf("Retail") != -1) finalType = "Retail";
+    if (detailsText.indexOf("Restaurant") != -1) finalType = "Restaurant";
 
     return {
         price: returnVal,
         lower: lowerBound,
-        upper: upperBound
+        upper: upperBound,
+        type: finalType
     };
   }
   let p = await run();
@@ -203,6 +208,7 @@ async function pullINRIXData(coords) {
         price: priceSq.price,
         upper: priceSq.upper,
         lower: priceSq.lower,
+        type: priceSq.type,
         lat: coords.lat,
         lng: coords.lng,
         tripcount: tripcount.count,
@@ -238,6 +244,7 @@ app.post('/submit-form', async (req, res) => {
             upper: result.upper,
             lower: result.lower,
             price: result.price,
+            type: result.type,
             lat: result.lat,
             lng: result.lng,
             tripcount: result.tripcount,
