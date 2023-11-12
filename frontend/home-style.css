@@ -7,7 +7,7 @@
 .content{
     width: 100%;
     position: absolute;
-    top: 40%;
+    top: 60%;
     margin-top: 200px;
     transform: translateY(-50%);
     text-align: center;
@@ -193,7 +193,7 @@ table.blueTable {
   }
 
   .filler {
-    margin-right: 30px;
+    margin-right: 40px;
     float: left;
     opacity: 75%;
     border: #ffffffb2;
@@ -207,3 +207,12 @@ table.blueTable {
     font-stretch: semi-expanded;
   }
 
+.alts {
+    margin-top: 100px;
+    
+}
+
+.alts a {
+    text-decoration: none;
+    color: rgb(129, 238, 116);
+}

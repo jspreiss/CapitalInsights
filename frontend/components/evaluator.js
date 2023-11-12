@@ -7,7 +7,7 @@ app.component('evaluator', {
         <h2 id="heading">Enter an Address Below to Get Started</h2>
         <form @submit.prevent="submitForm">
         <label for="inputData">Enter Address:    </label>
-        <input type="text" id="inputData" v-model="formData" required>
+        <input type="text" placeholder="Bldg#, Street, City, State, ZIP" id="inputData" v-model="formData" required>
         <div class="subbutton">
           <button type="submit"><span></span><a>Submit</a></button>
         </div>
@@ -26,7 +26,7 @@ app.component('evaluator', {
           <tr>
           <td>Square Feet: </td><td>{{ lowerSq }} square feet</td></tr>
           <tr>
-          <td>Trip Count: </td><td>{{ tripcount }}</td></tr>
+          <td>Trip Count: </td><td>{{ tripcount }} Trips / 15 Days</td></tr>
           <tr>
           <td>Latitude: </td><td>{{ lat }}</td></tr>
           <tr>
@@ -44,8 +44,16 @@ app.component('evaluator', {
         <div class="descs">
         
           <p v-if="submitted">This property is less expensive than {{ percentPrice }}% of listings in the area in price</p>
-          <p v-if="submitted">This property ranks higher than {{ percentTrip }}% of listings in the area in traffic</p>
+          <p v-if="submitted">This property ranks higher than {{ percentTrip }}% of listings in the area in consumer volume</p>
+
         </div>
+
+        <div v-if="submitted" class="alts">
+          <h3>Looking for the Highest Quality Listings in Your Area?</h3>
+          <p><a href="https://www.crexi.com/lease/properties/599013/california-275-sacramento-former-walgreens" target="_blank" class="listingURL">275 Sacramento Street</a> - Rated 9.8 / 10</p>
+          <p><a href="https://www.crexi.com/lease/properties/674362/california-2072-union-st" target="_blank" class="listingURL">2072 Union Street</a> - Rated 9.2 / 10</p>
+        </div>
+          
     </div>
     
 
@@ -68,6 +76,10 @@ app.component('evaluator', {
             type: null,
             percentPrice: null,
             percentTrip: null,
+            list1u: null,
+            list1r: null,
+            list2u: null,
+            list2r: null
         }
     },
     methods: {
@@ -91,10 +103,12 @@ app.component('evaluator', {
           this.lng = data.lng;
           this.price = data.price;
           this.tripcount = data.tripcount;
-          this.score = data.score.toFixed(1);
+          if(data.score) this.score = data.score.toFixed(1);
+          else this.score = 0;
           this.type = data.type;
           this.percentPrice = data.pcntPrice;
           this.percentTrip = data.pcntTrip;
+          this.lists = data.lists;
           this.submitted = true;
           this.spinner = false;
         })
@@ -109,8 +123,11 @@ app.component('evaluator', {
       image() {
         return "https://maps.googleapis.com/maps/api/staticmap?center=" + this.lat + "," + this.lng + 
         "&zoom=14&size=400x400&markers=" + this.lat + "," + this.lng + "&key=AIzaSyCE0SIqwuxf0Q6PiwhE83nPDJeVG4zQbmw"
+      },
+      shortest1() {
+        return this.list1u;
       }
-    }
+    } 
 
   });
   

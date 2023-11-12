@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { json } = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -190,9 +191,40 @@ async function pullINRIXData(coords) {
             lng: -122.43206,
             rating: 9.03,
             url: 'https://www.crexi.com/lease/properties/428720/california-2275-market-street'
+        },
+        list4: {
+            lat: 37.71047,
+            lng: -122.46747,
+            rating: 8.61,
+            url: 'https://www.crexi.com/lease/properties/702080/california-3931-alemany-blvd'
+        },
+        list5: {
+            lat: 37.76683,
+            lng: -122.43040,
+            rating: 8.40,
+            url: 'https://www.crexi.com/lease/properties/495076/california-225-7th-street'
+        },
+        list6: {
+            lat: 37.79172,
+            lng: -122.40593,
+            rating: 7.91,
+            url: 'https://www.crexi.com/lease/properties/642670/california-515-grant-avenue'
+        },
+        list7: {
+            lat: 37.78096,
+            lng: -122.45916,
+            rating: 7.62,
+            url: 'https://www.crexi.com/lease/properties/574775/california-inner-richmond-retail'
+        },
+        list8: {
+            lat: 37.75192,
+            lng: -122.42782,
+            rating: 7.79,
+            url: 'https://www.crexi.com/lease/properties/427906/california-retail-shop-for-lease-or-sale-in-noe-valley-san-francisco'
         }
-
     }
+        return json;
+
   }
   
   // Function to process form data
@@ -332,6 +364,21 @@ async function pullINRIXData(coords) {
           break;
       }
 
+      let jsonlists = {
+
+        list1: {
+            lat: 37.79414,
+            lng: -122.39858,
+            rating: 9.85,
+            url: 'https://www.crexi.com/lease/properties/599013/california-275-sacramento-former-walgreens'
+        },
+        list2: {
+            lat: 37.79758,
+            lng: -122.43343,
+            rating: 9.12,
+            url: 'https://www.crexi.com/lease/properties/674362/california-2072-union-st'
+        }
+    }
 
       //console.log('Continuing processing with API response:', apiResponse);
       //console.log('Number of trips that', formData.data, 'made:', apiResponse.count);
@@ -347,7 +394,11 @@ async function pullINRIXData(coords) {
         tripcount: tripcount.count,
         score: score,
         pcntPrice: 100-pnctPrice,
-        pcntTrip: pcntTrip
+        pcntTrip: pcntTrip,
+        url1: jsonlists.list1.url,
+        rating1: jsonlists.list1.rating,
+        url2: jsonlists.list2.url,
+        rating2: jsonlists.list2.rating
       }
 
       return data;
