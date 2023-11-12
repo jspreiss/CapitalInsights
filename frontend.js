@@ -4,7 +4,14 @@ new Vue({
     data: {
       formData: '',
       responseMessage: '',
-      apiResponse: null,
+      address: null,
+      upperSq: null,
+      lowerSq: null,
+      lat: null,
+      lng: null,
+      price: null,
+      tripcount: null,
+      score: null,
     },
     methods: {
       submitForm() {
@@ -19,7 +26,14 @@ new Vue({
         .then(response => response.json())
         .then(data => {
           this.responseMessage = data.message;
-          this.apiResponse = data.apiResponse; // Set the API response data
+          this.address = data.address;
+          this.upperSq = data.upper;
+          this.lowerSq = data.lower;
+          this.lat = data.lat;
+          this.lng = data.lng;
+          this.price = data.price;
+          this.tripcount = data.tripcount;
+          this.score = data.score;
         })
         .catch(error => {
           console.error('Error:', error);
