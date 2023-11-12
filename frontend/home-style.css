@@ -7,7 +7,8 @@
 .content{
     width: 100%;
     position: absolute;
-    top: 60%;
+    top: 40%;
+    margin-top: 200px;
     transform: translateY(-50%);
     text-align: center;
     color: #fff;
@@ -34,6 +35,48 @@
     margin: 20px auto;
     font-weight: 100;
     line-height: 25px;
+}
+
+
+
+
+h2 {
+    margin-top: 200px;
+}
+
+.entry form {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    top: 60%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+    animation: fadeInAnimation ease 4s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    
+}
+
+.entry input {
+    background: transparent;
+    color: #fff;
+    width: 20%;
+    height: 25px;
+    margin-left: 10px;
+}
+
+.entry label input form {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.subbutton{
+    display: block;
 }
 
 button{
@@ -69,19 +112,98 @@ span{
     bottom: 0;
     z-index: -1;
     transition: 0.5s;
-    color: black;
 }
 
 button:hover span{
     width: 100%;
     border: 2px solid #ffffff;
-}
-
-button:hover{
-    border: none;
-}
-
-button:hover a {
     color: black;
 }
+
+button:hover {
+    border: none;
+}
+button:hover a{
+    border: none;
+    color: black;
+}
+
+.tabulate {
+    animation: fadeInAnimation ease 3s;
+    margin-top: 80px;
+    display: flex;
+}
+
+
+
+table.blueTable {
+    
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    text-align: center;
+    width: 70%; /* Adjust the width as needed */
+    border-collapse: collapse;
+    margin: auto;
+    color: #fff;
+  }
+  table.blueTable td, table.blueTable th {
+    padding: 15px;
+
+  }
+  table.blueTable tbody td {
+    font-size: 20px;
+  }
+
+  .loader {
+    width: 4.8px;
+    top: 150px;
+    height: 4.8px;
+    display: block;
+    margin: 20px auto;
+    position:relative;
+    border-radius: 4px;
+    color: #FFF;
+    background: currentColor;
+    box-sizing: border-box;
+    animation: animloader 0.3s 0.3s linear infinite alternate;
+  }
+  .loader::after,
+  .loader::before {
+    content: '';  
+    box-sizing: border-box;
+    width: 4.8px;
+    height: 4.8px;
+    border-radius: 4px;
+    background: currentColor;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    animation: animloader 0.3s 0.45s linear infinite alternate;
+  }
+  .loader::after {
+      top: -15px;
+      animation-delay: 0s;
+  }
+  
+  @keyframes animloader {
+      0% { width: 4.8px }
+      100% { width: 48px}
+  }
+
+  .filler {
+    margin-right: 30px;
+    float: left;
+    opacity: 75%;
+    border: #ffffffb2;
+    border-radius: 3px;
+  }
+
+  .descs {
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: semi-expanded;
+  }
 

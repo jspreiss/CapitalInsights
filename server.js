@@ -64,22 +64,12 @@ async function findPriceSq(address) {
     //console.log('returnval:', returnVal);
 
     // Parse detailsText
-    let inputString = detailsText;
-    let lowerBound = 0;
-    let upperBound = 0;
-    // Define a regular expression to match numbers with commas and periods
-    const regex = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?) sq\. ft\. - (\d{1,3}(?:,\d{3})*(?:\.\d+)?) sq\. ft\./;
-    // Use the regular expression to extract matches from the input string
-    const match = inputString.match(regex);
-    if (match && match.length >= 3) {
-        // The first captured group is the lower bound, and the second is the upper bound
-        lowerBound = parseFloat(match[1].replace(/,/g, ''));
-        upperBound = parseFloat(match[2].replace(/,/g, ''));
-    } else {
-        // Return null if no match is found
-        lowerBound = null;
-        upperBound = null;
+    let shortdetails = detailsText.substring(0, detailsText.length - 9); // length of 'sq. ft.'
+    function isNumeric(char) {
+      return /^[0-9]$/.test(char);
     }
+    let finalArea = shortdetails.substring(shortdetails.lastIndexOf(' ') + 1, shortdetails.length);
+    if (!isNumeric(shortdetails.charAt(shortdetails.length - 1))) {finalArea = null;}
     //console.log('upper:', upperBound, 'lower:', lowerBound);
 
     // Parse store type
@@ -90,8 +80,8 @@ async function findPriceSq(address) {
 
     return {
         price: returnVal,
-        lower: lowerBound,
-        upper: upperBound,
+        lower: finalArea,
+        upper: null,
         type: finalType
     };
   }
@@ -179,6 +169,31 @@ async function pullINRIXData(coords) {
 
     return json;
   }
+
+  async function getRefData() {
+    let json = {
+
+        list1: {
+            lat: 37.79414,
+            lng: -122.39858,
+            rating: 9.85,
+            url: 'https://www.crexi.com/lease/properties/599013/california-275-sacramento-former-walgreens'
+        },
+        list2: {
+            lat: 37.79758,
+            lng: -122.43343,
+            rating: 9.12,
+            url: 'https://www.crexi.com/lease/properties/674362/california-2072-union-st'
+        },
+        list3: {
+            lat: 37.76457,
+            lng: -122.43206,
+            rating: 9.03,
+            url: 'https://www.crexi.com/lease/properties/428720/california-2275-market-street'
+        }
+
+    }
+  }
   
   // Function to process form data
   async function processFormData(formData) {
@@ -199,6 +214,124 @@ async function pullINRIXData(coords) {
 
       // Evaluate the property based on traffic data and price
       const score = (-(priceSq.price-3.41)/1.22+1.5*(tripcount.count-76.6)/38.75)*1.35+5;
+      const zPrice = (priceSq.price-3.41)/1.22;
+      const zTrip = (tripcount.count-76.6)/38.75;
+      let pcntPrice = 50;
+      let pcntTrip = 50;
+
+      switch (true) {
+        case zPrice < -2.5:
+          pnctPrice = 0.62;
+          break;
+        case zPrice < -2:
+          pnctPrice = 2.27;
+          break;
+        case zPrice < -1.5:
+          pnctPrice = 6.68;
+          break;
+        case zPrice < -1.25:
+          pnctPrice = 9.68;
+          break;
+        case zPrice < -1:
+          pnctPrice = 15.87;
+          break;
+        case zPrice < -0.75:
+          pnctPrice = 21.19;
+          break;
+        case zPrice < -0.5:
+          pnctPrice = 30.85;
+          break;
+        case zPrice < -0.25:
+          pnctPrice = 38.21;
+          break;
+        case zPrice <= 0:
+          pnctPrice = 50;
+          break;
+        case zPrice < 0.25:
+          pnctPrice = 61.79;
+          break;
+        case zPrice < 0.5:
+          pnctPrice = 69.15;
+          break;
+        case zPrice < 0.75:
+          pnctPrice = 78.81;
+          break;
+        case zPrice < 1:
+          pnctPrice = 84.13;
+          break;
+        case zPrice < 1.25:
+          pnctPrice = 90.32;
+          break;
+        case zPrice < 1.5:
+          pnctPrice = 93.32;
+          break;
+        case zPrice < 2:
+          pnctPrice = 97.72;
+          break;
+        case zPrice < 2.5:
+          pnctPrice = 99.38;
+          break;
+        default:
+          pnctPrice = 99.87;
+          break;
+      }
+      switch (true) {
+        case zTrip < -2.5:
+          pcntTrip = 0.62;
+          break;
+        case zTrip < -2:
+          pcntTrip = 2.27;
+          break;
+        case zTrip < -1.5:
+          pcntTrip = 6.68;
+          break;
+        case zTrip < -1.25:
+          pcntTrip = 9.68;
+          break;
+        case zTrip < -1:
+          pcntTrip = 15.87;
+          break;
+        case zTrip < -0.75:
+          pcntTrip = 21.19;
+          break;
+        case zTrip < -0.5:
+          pcntTrip = 30.85;
+          break;
+        case zTrip < -0.25:
+          pcntTrip = 38.21;
+          break;
+        case zTrip <= 0:
+          pcntTrip = 50;
+          break;
+        case zTrip < 0.25:
+          pcntTrip = 61.79;
+          break;
+        case zTrip < 0.5:
+          pcntTrip = 69.15;
+          break;
+        case zTrip < 0.75:
+          pcntTrip = 78.81;
+          break;
+        case zTrip < 1:
+          pcntTrip = 84.13;
+          break;
+        case zTrip < 1.25:
+          pcntTrip = 90.32;
+          break;
+        case zTrip < 1.5:
+          pcntTrip = 93.32;
+          break;
+        case zTrip < 2:
+          pcntTrip = 97.72;
+          break;
+        case zTrip < 2.5:
+          pcntTrip = 99.38;
+          break;
+        default:
+          pcntTrip = 99.87;
+          break;
+      }
+
 
       //console.log('Continuing processing with API response:', apiResponse);
       //console.log('Number of trips that', formData.data, 'made:', apiResponse.count);
@@ -212,7 +345,9 @@ async function pullINRIXData(coords) {
         lat: coords.lat,
         lng: coords.lng,
         tripcount: tripcount.count,
-        score: score
+        score: score,
+        pcntPrice: 100-pnctPrice,
+        pcntTrip: pcntTrip
       }
 
       return data;
@@ -248,7 +383,9 @@ app.post('/submit-form', async (req, res) => {
             lat: result.lat,
             lng: result.lng,
             tripcount: result.tripcount,
-            score: result.score
+            score: result.score,
+            pcntPrice: result.pcntPrice,
+            pcntTrip: result.pcntTrip
         });
     }
     catch (error) {

@@ -6,8 +6,7 @@ app.component('nav-bar', {
         <img v-bind:src="image" class="logo">
     <ul>
         <li><a href="home.html">Home</a></li>
-        <li><a href="errand.html">Evaluator</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="#heading">Evaluator</a></li>
     </ul>
   </div>
   `,
