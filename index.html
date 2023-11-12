@@ -1,0 +1,29 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue Node App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="app">
+    <form @submit.prevent="submitForm">
+      <label for="inputData">Enter Data:</label>
+      <input type="text" id="inputData" v-model="formData" required>
+      <button type="submit">Submit</button>
+    </form>
+
+    <div v-if="responseMessage">{{ responseMessage }}</div>
+    <div v-if="apiResponse">
+        <h3>API Response:</h3>
+        <pre>{{ apiResponse }}</pre>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="frontend.js"></script>
+</body>
+</html>
